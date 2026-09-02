@@ -41,7 +41,15 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p src/main/resources/assets/wardevil/neoforge/animations/entity
-          cat ci/anims.part* | base64 -d > /tmp/wardevil-anims.zip
+          cat \
+            ci/anims.part00 \
+            ci/anims.part01a ci/anims.part01b \
+            ci/anims.part02 \
+            ci/anims.part03 \
+            ci/anims.part04a ci/anims.part04b \
+            ci/anims.part05 \
+            | base64 -d > /tmp/wardevil-anims.zip
+          unzip -t /tmp/wardevil-anims.zip
           unzip -o /tmp/wardevil-anims.zip -d src/main/resources/assets/wardevil/neoforge/animations/entity
           ANIM_COUNT="$(find src/main/resources/assets/wardevil/neoforge/animations/entity -maxdepth 1 -name 'war_*.json' | wc -l | tr -d ' ')"
           echo "Restored animation JSON count: ${ANIM_COUNT}"
