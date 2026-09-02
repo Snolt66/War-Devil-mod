@@ -40,7 +40,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p src/main/resources/assets/wardevil/neoforge/animations/entity
+          DIR=src/main/resources/assets/wardevil/neoforge/animations/entity
+          mkdir -p "${DIR}"
           cat \
             ci/anims.part00 \
             ci/anims.part01a ci/anims.part01b \
@@ -49,11 +50,20 @@ jobs:
             ci/anims.part04a ci/anims.part04b \
             ci/anims.part05 \
             | base64 -d > /tmp/wardevil-anims.zip
-          unzip -t /tmp/wardevil-anims.zip
-          unzip -o /tmp/wardevil-anims.zip -d src/main/resources/assets/wardevil/neoforge/animations/entity
-          ANIM_COUNT="$(find src/main/resources/assets/wardevil/neoforge/animations/entity -maxdepth 1 -name 'war_*.json' | wc -l | tr -d ' ')"
+          unzip -o /tmp/wardevil-anims.zip -d "${DIR}" || true
+          base64 -d ci/war_ability4_cast.json.gz.b64 | gzip -dc > "${DIR}/war_ability4_cast.json"
+          ANIM_COUNT="$(find "${DIR}" -maxdepth 1 -name 'war_*.json' | wc -l | tr -d ' ')"
           echo "Restored animation JSON count: ${ANIM_COUNT}"
           test "${ANIM_COUNT}" -eq 22
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          files=sorted(Path('src/main/resources/assets/wardevil/neoforge/animations/entity').glob('war_*.json'))
+          assert len(files)==22
+          for p in files:
+              json.loads(p.read_text())
+          print('Validated 22 animation JSON files')
+          PY
 
       - name: Build War Devil
         shell: bash
