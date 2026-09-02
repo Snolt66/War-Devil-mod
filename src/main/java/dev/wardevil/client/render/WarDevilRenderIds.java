@@ -7,7 +7,14 @@ import net.minecraft.resources.Identifier;
 public final class WarDevilRenderIds {
     private WarDevilRenderIds() {}
 
-    public static final Identifier BASE_TEXTURE = Identifier.fromNamespaceAndPath(WarDevil.MOD_ID, "textures/entity/war_form.png");
-    public static final Identifier EMISSIVE_TEXTURE = Identifier.fromNamespaceAndPath(WarDevil.MOD_ID, "textures/entity/war_form_emissive.png");
-    public static final ModelLayerLocation WAR_FORM_LAYER = new ModelLayerLocation(Identifier.fromNamespaceAndPath(WarDevil.MOD_ID, "war_form"), "main");
+    public static final Identifier BASE_TEXTURE =
+            Identifier.fromNamespaceAndPath(WarDevil.MOD_ID, "textures/entity/war_form.png");
+    public static final Identifier EMISSIVE_TEXTURE =
+            Identifier.fromNamespaceAndPath(WarDevil.MOD_ID, "textures/entity/war_form_emissive.png");
+    public static final ModelLayerLocation WAR_FORM_LAYER =
+            new ModelLayerLocation(Identifier.fromNamespaceAndPath(WarDevil.MOD_ID, "war_form"), "main");
+
+    public static Identifier animation(String path) {
+        return Identifier.fromNamespaceAndPath(WarDevil.MOD_ID, path);
+    }
 }
